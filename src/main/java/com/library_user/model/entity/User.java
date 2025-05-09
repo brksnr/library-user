@@ -1,6 +1,8 @@
 package com.library_user.model.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,6 +20,7 @@ import java.util.UUID;
 public class User implements UserDetails {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
     @Column(nullable = false)
@@ -37,6 +40,8 @@ public class User implements UserDetails {
     private Role role;
 
     @Column(nullable = false)
+    @Min(0)
+    @Max(5)
     private Integer borrowedBookCount;
 
     @Override
