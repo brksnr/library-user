@@ -9,4 +9,9 @@ public final class ErrorMessages {
     public static final String BOOK_DTO_NULL = "BookDto cannot be null";
     public static final String BOOK_AND_DTO_NULL = "Book and BookDto cannot be null";
     public static final String BOOK_ALREADY_EXISTS_ISBN = "Book already exists with ISBN: %s";
+    public static final String USER_NOT_FOUND_ID = "User not found with id";
+    public static final String LIBRARIAN_UPDATE = "Librarian can't update another librarian information's!";
+    public static final String USER_NOT_FOUND_EMAIL = "User already exists with email";
+    public static final String EMAIL_ALREADY_IN_USE = "Email already taken!";
+
 }
