@@ -22,6 +22,6 @@ public interface BookRepository extends JpaRepository<Book, UUID> {
 
     Page<Book> findByAvailability(boolean availability, Pageable pageable);
 
-    boolean existsByIdAndAvailableTrue(UUID bookId);
+    boolean existsByIdAndAvailabilityTrue(UUID bookId);
 
 }
