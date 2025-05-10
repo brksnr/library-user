@@ -13,7 +13,7 @@ import java.util.function.Function;
 public class JwtUtil {
 
     private final String SECRET_KEY = "secretsecretsecretsecretsecretsecretsecretsecretsecret";
-    private final long EXPIRATION_TIME = 1000 * 60 * 60;
+    private final long EXPIRATION_TIME = 100000 * 60 * 60;
     private final Key key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
 
     public String generateToken(UserDetails userDetails) {
