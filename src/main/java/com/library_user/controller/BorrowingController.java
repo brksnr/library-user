@@ -4,7 +4,7 @@ import com.library_user.model.request.BorrowingCreateRequest;
 import com.library_user.model.request.ReturnBookRequest;
 import com.library_user.model.response.BorrowingResponse;
 import com.library_user.model.dto.OverDueReportDto;
-import com.library_user.service.BorrowingService;
+import com.library_user.service.BorrowingServiceImpl;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -27,7 +27,7 @@ import java.util.UUID;
 @Tag(name = "Borrowing", description = "Borrowing and Returning API")
 public class BorrowingController {
 
-    private final BorrowingService borrowingService;
+    private final BorrowingServiceImpl borrowingServiceImpl;
 
     @Operation(
             summary = "Borrow a book",
@@ -43,7 +43,7 @@ public class BorrowingController {
     @PostMapping("/borrow")
     @PreAuthorize("hasRole('PATRON')")
     public ResponseEntity<BorrowingResponse> borrowBook(@Valid @RequestBody BorrowingCreateRequest request) {
-        return ResponseEntity.ok(borrowingService.borrowBook(request));
+        return ResponseEntity.ok(borrowingServiceImpl.borrowBook(request));
     }
 
     @Operation(
@@ -59,7 +59,7 @@ public class BorrowingController {
     @PostMapping("/return/{borrowingId}")
     @PreAuthorize("hasRole('PATRON')")
     public ResponseEntity<BorrowingResponse> returnBook(@PathVariable UUID borrowingId, @RequestBody ReturnBookRequest request) {
-        return ResponseEntity.ok(borrowingService.returnBook(borrowingId , request));
+        return ResponseEntity.ok(borrowingServiceImpl.returnBook(borrowingId , request));
     }
 
 
@@ -80,7 +80,7 @@ public class BorrowingController {
             @PathVariable int size
     ) {
         Pageable pageable = PageRequest.of(page, size);
-        return ResponseEntity.ok(borrowingService.getUserBorrowingHistory(pageable));
+        return ResponseEntity.ok(borrowingServiceImpl.getUserBorrowingHistory(pageable));
     }
 
     @Operation(
@@ -94,7 +94,7 @@ public class BorrowingController {
     @GetMapping("/history/all")
     @PreAuthorize("hasRole('LIBRARIAN')")
     public ResponseEntity<List<BorrowingResponse>> getAllBorrowingHistory() {
-        return ResponseEntity.ok(borrowingService.getAllBorrowingHistory());
+        return ResponseEntity.ok(borrowingServiceImpl.getAllBorrowingHistory());
     }
 
     @Operation(
@@ -112,6 +112,6 @@ public class BorrowingController {
             @PathVariable int size
     ) {
         Pageable pageable = PageRequest.of(page, size);
-        return ResponseEntity.ok(borrowingService.getOverdueBooks(pageable));
+        return ResponseEntity.ok(borrowingServiceImpl.getOverdueBooks(pageable));
     }
 }
