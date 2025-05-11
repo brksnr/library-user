@@ -38,9 +38,6 @@ public class BookServiceImpl implements BookService {
     public BookDto addBook(BookDto bookDto) {
         checkBookExistsByIsbn(bookDto.getIsbn());
         Book book = BookMapper.toEntity(bookDto);
-        if (book.getId() == null) {
-            book.setId(UUID.randomUUID());
-        }
         Book saved = bookRepository.save(book);
         return BookMapper.toDto(saved);
     }
@@ -56,7 +53,10 @@ public class BookServiceImpl implements BookService {
     @Override
     public void deleteBook(UUID id) {
         if (!bookRepository.existsById(id)) {
-            throw new CustomException(ErrorMessages.BOOK_NOT_FOUND_ID + id, HttpStatus.NOT_FOUND);
+            throw new CustomException(
+                    String.format(ErrorMessages.BOOK_NOT_FOUND_ID, id),
+                    HttpStatus.NOT_FOUND
+            );
         }
         bookRepository.deleteById(id);
     }
