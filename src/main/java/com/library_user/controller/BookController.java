@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -41,7 +42,7 @@ public class BookController {
     )
     @PostMapping
     @PreAuthorize("hasRole('LIBRARIAN')")
-    public ResponseEntity<BookDto> addBook(@RequestBody BookDto bookDto) {
+    public ResponseEntity<BookDto> addBook(@Valid @RequestBody BookDto bookDto) {
         BookDto created = bookService.addBook(bookDto);
         return new ResponseEntity<>(created, HttpStatus.CREATED);
     }
