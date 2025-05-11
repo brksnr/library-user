@@ -26,7 +26,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
-public class BorrowingServiceImpl implements BorrowService {
+public class BorrowingServiceImpl implements BorrowingService {
     private final UserRepository userRepository;
     private final BookRepository bookRepository;
     private final BorrowingRepository borrowingRepository;

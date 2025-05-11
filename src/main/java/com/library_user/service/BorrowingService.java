@@ -9,7 +9,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 import java.util.UUID;
 
-public interface BorrowService {
+public interface BorrowingService {
     void isUserAvailableForBorrow(UUID userId);
 
     void isBookAvailable(UUID bookId);

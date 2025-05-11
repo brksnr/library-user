@@ -13,7 +13,7 @@ import com.library_user.model.response.BorrowingResponse;
 import com.library_user.repository.BookRepository;
 import com.library_user.repository.BorrowingRepository;
 import com.library_user.repository.UserRepository;
-import com.library_user.service.BorrowService;
+import com.library_user.service.BorrowingService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -40,7 +40,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class BorrowingServiceH2Test {
 
     @Autowired
-    private BorrowService borrowingService;
+    private BorrowingService borrowingService;
 
     @Autowired
     private UserRepository userRepository;
