@@ -3,7 +3,7 @@ package com.library_user.service.Impl;
 import com.library_user.exceptions.CustomException;
 import com.library_user.model.entity.Role;
 import com.library_user.model.entity.User;
-import com.library_user.model.helper.ErrorMessages;
+import com.library_user.helper.ErrorMessages;
 import com.library_user.model.request.AuthRequest;
 import com.library_user.model.request.RegisterRequest;
 import com.library_user.model.request.UpdateUserRequest;

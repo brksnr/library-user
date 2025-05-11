@@ -5,7 +5,7 @@ import com.library_user.model.dto.OverDueReportDto;
 import com.library_user.model.entity.Book;
 import com.library_user.model.entity.Borrowing;
 import com.library_user.model.entity.User;
-import com.library_user.model.helper.ErrorMessages;
+import com.library_user.helper.ErrorMessages;
 import com.library_user.model.mapper.BorrowingMapper;
 import com.library_user.model.request.BorrowingCreateRequest;
 import com.library_user.model.request.ReturnBookRequest;

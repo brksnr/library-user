@@ -1,4 +1,4 @@
-package com.library_user.model.helper;
+package com.library_user.helper;
 
 public final class ErrorMessages {
     private ErrorMessages() {}

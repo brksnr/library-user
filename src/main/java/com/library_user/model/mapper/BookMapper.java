@@ -3,7 +3,7 @@ package com.library_user.model.mapper;
 import com.library_user.exceptions.CustomException;
 import com.library_user.model.dto.BookDto;
 import com.library_user.model.entity.Book;
-import com.library_user.model.helper.ErrorMessages;
+import com.library_user.helper.ErrorMessages;
 import org.springframework.http.HttpStatus;
 
 public class BookMapper {
