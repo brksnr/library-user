@@ -40,8 +40,8 @@ public class User implements UserDetails {
     private Role role;
 
     @Column(nullable = false)
-    @Min(0)
-    @Max(5)
+    @Min(value = 0,message = "greater than or equal to 0")
+    @Max(value = 5, message = "less than or equal to 5")
     private Integer borrowedBookCount;
 
     @Override
