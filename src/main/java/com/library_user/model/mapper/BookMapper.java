@@ -31,7 +31,7 @@ public class BookMapper {
             throw new CustomException(ErrorMessages.BOOK_DTO_NULL, HttpStatus.NOT_FOUND);
         }
         Book book = new Book();
-        book.setId(dto.getId());
+        book.setId(null);
         book.setTitle(dto.getTitle());
         book.setAuthor(dto.getAuthor());
         book.setIsbn(dto.getIsbn());
