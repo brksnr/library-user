@@ -9,7 +9,6 @@ public record UserResponse(
         UUID id,
         String name,
         String email,
-        String password,
         String contact,
         Role role,
         Integer borrowedBookCount
@@ -19,7 +18,6 @@ public record UserResponse(
                 user.getId(),
                 user.getName(),
                 user.getEmail(),
-                user.getPassword(),
                 user.getContact(),
                 user.getRole(),
                 user.getBorrowedBookCount()
