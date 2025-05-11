@@ -1,13 +1,11 @@
 package com.library_user.model.helper;
 
 public final class ErrorMessages {
-    private ErrorMessages() {} // Helper class, instance oluşturulamaz
-
+    private ErrorMessages() {}
     public static final String BOOK_NOT_FOUND_ID = "Book not found with id: %s";
     public static final String BOOK_NOT_FOUND_ISBN = "Book not found with ISBN: %s";
     public static final String BOOK_ENTITY_NULL = "Book entity cannot be null";
     public static final String BOOK_DTO_NULL = "BookDto cannot be null";
-    public static final String BOOK_AND_DTO_NULL = "Book and BookDto cannot be null";
     public static final String BOOK_ALREADY_EXISTS_ISBN = "Book already exists with ISBN: %s";
     public static final String USER_NOT_FOUND_ID = "User not found with id";
     public static final String LIBRARIAN_UPDATE = "Librarian can't update another librarian information's!";
@@ -18,6 +16,5 @@ public final class ErrorMessages {
     public static final String BOOK_ALREADY_RETURNED = "Book is already returned!";
     public static final String BORROWING_NOT_FOUND = "Borrowing book not found!";
     public static final String USER_AND_BORROW_ID_NOT_MATCH = "You can only return the book you purchased yourself.";
-    public static final String UNAUTHORIZED_ACCESS = "Patrons can only see their book history!";
 
 }
