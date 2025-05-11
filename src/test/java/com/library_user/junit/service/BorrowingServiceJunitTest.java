@@ -12,7 +12,7 @@ import com.library_user.model.response.BorrowingResponse;
 import com.library_user.repository.BookRepository;
 import com.library_user.repository.BorrowingRepository;
 import com.library_user.repository.UserRepository;
-import com.library_user.service.BorrowingServiceImpl;
+import com.library_user.service.Impl.BorrowingServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

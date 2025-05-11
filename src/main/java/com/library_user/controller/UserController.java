@@ -5,7 +5,7 @@ import com.library_user.model.request.RegisterRequest;
 import com.library_user.model.request.UpdateUserRequest;
 import com.library_user.model.response.AuthResponse;
 import com.library_user.model.response.UserResponse;
-import com.library_user.service.UserServiceImpl;
+import com.library_user.service.Impl.UserServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;

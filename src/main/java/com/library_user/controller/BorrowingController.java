@@ -4,7 +4,7 @@ import com.library_user.model.request.BorrowingCreateRequest;
 import com.library_user.model.request.ReturnBookRequest;
 import com.library_user.model.response.BorrowingResponse;
 import com.library_user.model.dto.OverDueReportDto;
-import com.library_user.service.BorrowingServiceImpl;
+import com.library_user.service.Impl.BorrowingServiceImpl;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;

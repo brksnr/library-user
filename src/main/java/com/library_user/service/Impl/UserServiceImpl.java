@@ -1,4 +1,4 @@
-package com.library_user.service;
+package com.library_user.service.Impl;
 
 import com.library_user.exceptions.CustomException;
 import com.library_user.model.entity.Role;
@@ -11,6 +11,7 @@ import com.library_user.model.response.AuthResponse;
 import com.library_user.model.response.UserResponse;
 import com.library_user.repository.UserRepository;
 import com.library_user.security.JwtUtil;
+import com.library_user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;

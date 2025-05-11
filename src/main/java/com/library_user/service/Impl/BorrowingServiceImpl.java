@@ -1,4 +1,4 @@
-package com.library_user.service;
+package com.library_user.service.Impl;
 
 import com.library_user.exceptions.CustomException;
 import com.library_user.model.dto.OverDueReportDto;
@@ -13,6 +13,7 @@ import com.library_user.model.response.BorrowingResponse;
 import com.library_user.repository.BookRepository;
 import com.library_user.repository.BorrowingRepository;
 import com.library_user.repository.UserRepository;
+import com.library_user.service.BorrowingService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;

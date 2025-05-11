@@ -8,7 +8,7 @@ import com.library_user.model.request.RegisterRequest;
 import com.library_user.model.request.UpdateUserRequest;
 import com.library_user.model.response.AuthResponse;
 import com.library_user.model.response.UserResponse;
-import com.library_user.service.UserServiceImpl;
+import com.library_user.service.Impl.UserServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
