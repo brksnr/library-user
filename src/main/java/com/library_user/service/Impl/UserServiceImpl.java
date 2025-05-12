@@ -38,6 +38,9 @@ public class UserServiceImpl implements UserService {
         this.jwtUtil = jwtUtil;
     }
 
+    /**
+     Authenticates the user with email and password, returns a JWT token if successful
+     * */
     @Override
     public AuthResponse authenticate(AuthRequest request) {
         authenticationManager.authenticate(
@@ -49,6 +52,9 @@ public class UserServiceImpl implements UserService {
         return new AuthResponse(token);
     }
 
+    /**
+     Registers a new user, throws an error if the email is already in use
+     **/
     @Override
     public UserResponse register(RegisterRequest request) {
         if (userRepository.existsByEmail(request.email())) {
@@ -67,12 +73,19 @@ public class UserServiceImpl implements UserService {
         return UserResponse.fromUser(saved);
     }
 
+    /**
+     Retrieves a user by their ID, throws an error if not found
+     * */
     @Override
     public UserResponse getUserById(UUID id) {
         User user = isUserFound(id);
         return UserResponse.fromUser(user);
     }
 
+
+    /**
+     Returns all users with pagination support
+     **/
     @Override
     public List<UserResponse> getAllUsers(Pageable pageable) {
         return userRepository.findAll(pageable)
@@ -80,6 +93,9 @@ public class UserServiceImpl implements UserService {
                 .getContent();
     }
 
+    /**
+     Updates user information, throws an error if email is already taken or user is a librarian
+     */
     @Override
     public UserResponse updateUser(UUID id, UpdateUserRequest request) {
         User user = isUserFound(id);
@@ -94,23 +110,35 @@ public class UserServiceImpl implements UserService {
         return UserResponse.fromUser(updated);
     }
 
+    /**
+     Deletes a user by ID, throws an error if user is not found
+     */
     @Override
     public void deleteUser(UUID id) {
         isUserFound(id);
         userRepository.deleteById(id);
     }
 
+    /**
+     Throws an error if the user is a librarian, not allowed to update
+     */
     public void isLibrarianThrowException(UUID id, Role role){
         if(userRepository.existsByIdAndRole(id, Role.LIBRARIAN)){
             throw new CustomException(String.format(ErrorMessages.LIBRARIAN_UPDATE), HttpStatus.FORBIDDEN);
         }
     }
 
+    /**
+     Checks if the user exists by ID, throws an error if not found
+     */
     public User isUserFound(UUID id){
         return userRepository.findById(id)
                 .orElseThrow(() -> new CustomException(String.format(ErrorMessages.USER_NOT_FOUND_ID) + id, HttpStatus.NOT_FOUND));
     }
 
+    /**
+     Checks if the email is already used by another user , throws an error if so
+     */
     public void isMailExist(UUID id, String email) {
         if (userRepository.existsByEmailAndIdNot(email, id)) {
             throw new CustomException(String.format(ErrorMessages.EMAIL_ALREADY_IN_USE), HttpStatus.CONFLICT);
