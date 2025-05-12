@@ -17,7 +17,7 @@ public class OverdueChecker {
         this.borrowingRepository = borrowingRepository;
     }
 
-    @Scheduled(cron = "0 * * * * ?") // every minute
+    @Scheduled(cron = "0 0 * * * ?")// every minute
     public void markOverdueBooks() {
         LocalDate today = LocalDate.now();
         List<Borrowing> overdueBorrowings = borrowingRepository.findAllByDueDateBeforeAndOverdueFalseAndReturnDateIsNull(today);
