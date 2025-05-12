@@ -54,6 +54,7 @@ public class UserServiceImpl implements UserService {
 
     /**
      Registers a new user, throws an error if the email is already in use
+     TODO:Both PATRON AND LIBRARIAN can be registered. We can designate a single librarian and the librarian can be given the authority to make everyone else a librarian.
      **/
     @Override
     public UserResponse register(RegisterRequest request) {

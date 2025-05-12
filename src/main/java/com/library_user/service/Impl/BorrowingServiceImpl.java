@@ -125,6 +125,8 @@ public class BorrowingServiceImpl implements BorrowingService {
 
     /**
      Retrieves the borrowing history of all users
+
+     TODO: Returns the ID values the borrowed books. This can be changed to return the book name and username.
      **/
     @Override
     public List<BorrowingResponse> getAllBorrowingHistory() {
@@ -135,6 +137,7 @@ public class BorrowingServiceImpl implements BorrowingService {
 
     /**
      Returns a list of overdue books and related information
+     TODO: Returns the ID values the borrowed books. This can be changed to return the book name and username.
      **/
     @Override
     public List<OverDueReportDto> getOverdueBooks(Pageable pageable) {
