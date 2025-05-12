@@ -239,8 +239,17 @@ public class BookControllerH2Test {
     // successfully updating a book as a librarian.
     @Test
     void updateBook_asLibrarian_success() throws Exception {
-        Book savedBook = bookRepository.save(Book.builder().title("Old Title").author("Old Author").isbn("1111111111").description("Old Desc").publicationDate(LocalDate.now()).genre("Old Genre").availability(true).build());
-        BookDto updatedInfo = new BookDto(savedBook.getId(), "New Title", "New Author", "2222222222", "New Desc", LocalDate.now().plusDays(1), "New Genre", false);
+        Book savedBook = bookRepository.save(Book.builder().title("Old Title").author("Old Author").isbn("1111111111").description("Old Desc").publicationDate(LocalDate.now().minusDays(1)).genre("Old Genre").availability(true).build()); // Başlangıçta da geçerli bir tarih olsun
+        LocalDate validPublicationDate = LocalDate.now();
+
+        BookDto updatedInfo = new BookDto(savedBook.getId(),
+                "New Title",
+                "New Author",
+                "2222222222",
+                "New Desc",
+                validPublicationDate,
+                "New Genre",
+                false);
 
         mockMvc.perform(put("/api/books/{id}", savedBook.getId())
                         .header("Authorization", "Bearer " + librarianToken)
@@ -250,7 +259,71 @@ public class BookControllerH2Test {
                 .andExpect(jsonPath("$.title", is("New Title")))
                 .andExpect(jsonPath("$.author", is("New Author")))
                 .andExpect(jsonPath("$.isbn", is("2222222222")))
-                .andExpect(jsonPath("$.description", is("New Desc")));
+                .andExpect(jsonPath("$.description", is("New Desc")))
+                .andExpect(jsonPath("$.publicationDate", is(validPublicationDate.toString())));
+    }
+
+
+    // try to update a book with empty fields
+    @Test
+    void updateBook_whenTitleIsBlank_shouldReturnBadRequest() throws Exception {
+        Book savedBook = bookRepository.save(Book.builder()
+                .title("valid title")
+                .author("valid author")
+                .isbn("1234567890")
+                .description("valid description")
+                .publicationDate(LocalDate.now().minusDays(10))
+                .genre("valid genre")
+                .availability(true)
+                .build());
+
+        BookDto invalidUpdateInfo = new BookDto(
+                savedBook.getId(),
+                "",
+                "update author",
+                "0987654321",
+                "update description",
+                LocalDate.now(),
+                "update gnre",
+                false);
+
+        mockMvc.perform(put("/api/books/{id}", savedBook.getId())
+                        .header("Authorization", "Bearer " + librarianToken)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(invalidUpdateInfo)))
+                .andExpect(status().isBadRequest());
+    }
+
+    // try to update when publication date is future
+    @Test
+    void updateBook_whenPublicationDateIsFuture_shouldReturnBadRequest() throws Exception {
+
+        Book savedBook = bookRepository.save(Book.builder()
+                .title("test")
+                .author("test")
+                .isbn("1122334455")
+                .description("test")
+                .publicationDate(LocalDate.now().minusDays(5))
+                .genre("test")
+                .availability(true)
+                .build());
+
+
+        BookDto invalidUpdateInfo = new BookDto(
+                savedBook.getId(),
+                "updated title",
+                "updated author",
+                "5544332211",
+                "updated description",
+                LocalDate.now().plusDays(1),
+                "updated genre",
+                false);
+
+        mockMvc.perform(put("/api/books/{id}", savedBook.getId())
+                        .header("Authorization", "Bearer " + librarianToken)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(invalidUpdateInfo)))
+                .andExpect(status().isBadRequest());
     }
 
     // a patron attempting to update a book is forbidden.
