@@ -39,6 +39,9 @@ public class BorrowingServiceImpl implements BorrowingService {
         this.borrowingRepository = borrowingRepository;
     }
 
+    /**
+     Checks if the user is allowed to borrow more books (max 5)
+     * */
     @Override
     public void isUserAvailableForBorrow(UUID userId){
         int MAX_BORROWED_BOOKS = 5;
@@ -49,6 +52,10 @@ public class BorrowingServiceImpl implements BorrowingService {
             throw new CustomException(ErrorMessages.USER_CAN_NOT_BORROW_5,HttpStatus.CONFLICT);
         }
     }
+
+    /**
+     Checks if the requested book is currently available for borrowing
+     */
     @Override
     public void isBookAvailable(UUID bookId){
         boolean isBookAvailable = bookRepository.existsByIdAndAvailabilityTrue(bookId);
@@ -56,6 +63,10 @@ public class BorrowingServiceImpl implements BorrowingService {
             throw new CustomException(ErrorMessages.BOOK_NOT_AVAILABLE, HttpStatus.BAD_REQUEST);
         }
     }
+
+    /**
+     Increases the user's borrowed book count by one
+     * */
     @Override
     public void increaseBorrowCount(UUID userId){
         User user = userRepository.findById(userId)
@@ -63,6 +74,10 @@ public class BorrowingServiceImpl implements BorrowingService {
         user.setBorrowedBookCount(user.getBorrowedBookCount() + 1);
         userRepository.save(user);
     }
+
+    /**
+     Toggles the availability status of a book
+     * */
     @Override
     public void chanceBookAvailability(UUID bookId){
         Book book = bookRepository.findById(bookId)
@@ -70,6 +85,10 @@ public class BorrowingServiceImpl implements BorrowingService {
         book.setAvailability(!book.isAvailability());
         bookRepository.save(book);
     }
+
+    /**
+     Handles the borrowing process and returns borrowing information
+     */
     @Override
     public BorrowingResponse borrowBook(BorrowingCreateRequest request) {
         isBookAvailable(request.bookId());
@@ -88,6 +107,10 @@ public class BorrowingServiceImpl implements BorrowingService {
         chanceBookAvailability(request.bookId());
         return BorrowingMapper.toResponseDTO(borrowing);
     }
+
+    /**
+     Retrieves the authenticated user's borrowing history with pagination
+     * */
     @Override
     public List<BorrowingResponse> getUserBorrowingHistory(Pageable pageable) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -99,12 +122,20 @@ public class BorrowingServiceImpl implements BorrowingService {
                 .map(BorrowingMapper::toResponseDTO)
                 .getContent();
     }
+
+    /**
+     Retrieves the borrowing history of all users
+     **/
     @Override
     public List<BorrowingResponse> getAllBorrowingHistory() {
         return borrowingRepository.findAll().stream()
                 .map(BorrowingMapper::toResponseDTO)
                 .collect(Collectors.toList());
     }
+
+    /**
+     Returns a list of overdue books and related information
+     **/
     @Override
     public List<OverDueReportDto> getOverdueBooks(Pageable pageable) {
         LocalDate today = LocalDate.now();
@@ -118,6 +149,10 @@ public class BorrowingServiceImpl implements BorrowingService {
                 .getContent();
     }
 
+
+    /**
+     Handles the return process of a borrowed book
+     * */
         @Transactional
         @Override
         public BorrowingResponse returnBook(UUID borrowingId, ReturnBookRequest request) {
@@ -131,23 +166,32 @@ public class BorrowingServiceImpl implements BorrowingService {
 
             updateBorrowingReturnInfo(borrowing);
             updateBookAvailability(borrowing.getBookId(), true);
-            updateUserBorrowedBookCount(borrowing.getUserId(), -1);
+            updateUserBorrowedBookCount(borrowing.getUserId());
 
             return BorrowingMapper.toResponseDTO(borrowing);
         }
 
 
+    /**
+     Fetches a borrowing record or throws an exception if not found
+     * */
     private Borrowing getBorrowingOrThrow(UUID borrowingId) {
         return borrowingRepository.findById(borrowingId)
                 .orElseThrow(() -> new CustomException(ErrorMessages.BORROWING_NOT_FOUND, HttpStatus.NOT_FOUND));
     }
 
+    /**
+     Checks if the book has already been returned
+     * */
     private void checkAlreadyReturned(Borrowing borrowing) {
         if (borrowing.getReturnDate() != null) {
             throw new CustomException(ErrorMessages.BOOK_ALREADY_RETURNED, HttpStatus.CONFLICT);
         }
     }
 
+    /**
+     Updates the return date and overdue status of a borrowing
+     * */
     private void updateBorrowingReturnInfo(Borrowing borrowing) {
         LocalDate now = LocalDate.now();
         borrowing.setReturnDate(now);
@@ -155,6 +199,9 @@ public class BorrowingServiceImpl implements BorrowingService {
         borrowingRepository.save(borrowing);
     }
 
+    /**
+     Sets the availability of a book to true or false
+     * */
     private void updateBookAvailability(UUID bookId, boolean available) {
         Book book = bookRepository.findById(bookId)
                 .orElseThrow(() -> new CustomException(ErrorMessages.BOOK_NOT_FOUND_ID, HttpStatus.NOT_FOUND));
@@ -162,10 +209,13 @@ public class BorrowingServiceImpl implements BorrowingService {
         bookRepository.save(book);
     }
 
-    private void updateUserBorrowedBookCount(UUID userId, int delta) {
+    /**
+     Adjusts the user's borrowed book count
+     */
+    private void updateUserBorrowedBookCount(UUID userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomException(ErrorMessages.USER_NOT_FOUND_ID, HttpStatus.NOT_FOUND));
-        user.setBorrowedBookCount(user.getBorrowedBookCount() + delta);
+        user.setBorrowedBookCount(user.getBorrowedBookCount() + -1);
         userRepository.save(user);
     }
 
