@@ -13,8 +13,4 @@ public interface BookService {
     BookDto getBookById(UUID id);
     BookDto getBookByIsbn(String isbn);
     BookDto updateBookAvailability(UUID id, boolean availability);
-    List<BookDto> searchBooksByTitle(String title, Pageable pageable);
-    List<BookDto> searchBooksByAuthor(String author, Pageable pageable);
-    List<BookDto> searchBooksByGenre(String genre, Pageable pageable);
-    List<BookDto> searchBooksByAvailability(boolean availability, Pageable pageable);
 }

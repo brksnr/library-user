@@ -104,45 +104,6 @@ public class BookServiceImpl implements BookService {
         return BookMapper.toDto(updated);
     }
 
-    /**
-     Searches for books containing the title, returns paginated result.
-     * */
-    @Override
-    public List<BookDto> searchBooksByTitle(String title, Pageable pageable) {
-        return bookRepository.findByTitleContainingIgnoreCase(title, pageable)
-                .map(BookMapper::toDto)
-                .getContent();
-    }
-
-    /**
-     Searches for books by author's name (case-insensitive), returns paginated result.
-     * */
-    @Override
-    public List<BookDto> searchBooksByAuthor(String author, Pageable pageable) {
-        return bookRepository.findByAuthorContainingIgnoreCase(author, pageable)
-                .map(BookMapper::toDto)
-                .getContent();
-    }
-
-    /**
-     Searches for books by genre (case-insensitive), returns paginated result.
-     * */
-    @Override
-    public List<BookDto> searchBooksByGenre(String genre, Pageable pageable) {
-        return bookRepository.findByGenreContainingIgnoreCase(genre, pageable)
-                .map(BookMapper::toDto)
-                .getContent();
-    }
-
-    /**
-     Searches for books by availability status, returns paginated result.
-     * */
-    @Override
-    public List<BookDto> searchBooksByAvailability(boolean availability, Pageable pageable) {
-        return bookRepository.findByAvailability(availability, pageable)
-                .map(BookMapper::toDto)
-                .getContent();
-    }
 
     /**
      Retrieves a book by ID or throws a not found exception

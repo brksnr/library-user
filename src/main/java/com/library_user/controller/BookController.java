@@ -9,13 +9,11 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.*;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+
 import java.util.UUID;
 
 @RestController
@@ -47,6 +45,9 @@ public class BookController {
         return new ResponseEntity<>(created, HttpStatus.CREATED);
     }
 
+
+
+
     @Operation(
             summary = "Update book information",
             description = "Librarians can update book details by book ID.",
@@ -58,10 +59,13 @@ public class BookController {
     )
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('LIBRARIAN')")
-    public ResponseEntity<BookDto> updateBook(@PathVariable UUID id, @RequestBody BookDto bookDto) {
+    public ResponseEntity<BookDto> updateBook(@PathVariable UUID id,@Valid @RequestBody BookDto bookDto) {
         BookDto updated = bookService.updateBook(id, bookDto);
         return ResponseEntity.ok(updated);
     }
+
+
+
 
     @Operation(
             summary = "Delete a book",
@@ -77,6 +81,9 @@ public class BookController {
         bookService.deleteBook(id);
         return ResponseEntity.noContent().build();
     }
+
+
+
 
     @Operation(
             summary = "View book details by ID",
@@ -94,6 +101,9 @@ public class BookController {
         return ResponseEntity.ok(book);
     }
 
+
+
+
     @Operation(
             summary = "View book details by ISBN",
             description = "Librarians and patrons can view detailed information about a book by its ISBN.",
@@ -109,6 +119,9 @@ public class BookController {
         BookDto book = bookService.getBookByIsbn(isbn);
         return ResponseEntity.ok(book);
     }
+
+
+
 
     @Operation(
             summary = "Update book availability",
@@ -126,73 +139,5 @@ public class BookController {
             @PathVariable boolean availability) {
         BookDto updated = bookService.updateBookAvailability(id, availability);
         return ResponseEntity.ok(updated);
-    }
-
-    @Operation(
-            summary = "Search books by title",
-            description = "Librarians and patrons can search for books by title. Supports pagination.",
-            responses = {
-                    @ApiResponse(responseCode = "200", description = "Books found",
-                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = BookDto.class)))
-            }
-    )
-    @GetMapping("/search/title/{title}")
-    @PreAuthorize("hasAnyRole('LIBRARIAN', 'PATRON')")
-    public ResponseEntity<List<BookDto>> searchBooksByTitle(
-            @PathVariable String title,
-            @PageableDefault(size = 10, sort = "title") Pageable pageable) {
-        List<BookDto> result = bookService.searchBooksByTitle(title, pageable);
-        return ResponseEntity.ok(result);
-    }
-
-    @Operation(
-            summary = "Search books by author",
-            description = "Librarians and patrons can search for books by author. Supports pagination.",
-            responses = {
-                    @ApiResponse(responseCode = "200", description = "Books found",
-                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = BookDto.class)))
-            }
-    )
-    @GetMapping("/search/author/{author}")
-    @PreAuthorize("hasAnyRole('LIBRARIAN', 'PATRON')")
-    public ResponseEntity<List<BookDto>> searchBooksByAuthor(
-            @PathVariable String author,
-            @PageableDefault(size = 10) Pageable pageable) {
-        List<BookDto> result = bookService.searchBooksByAuthor(author, pageable);
-        return ResponseEntity.ok(result);
-    }
-
-    @Operation(
-            summary = "Search books by genre",
-            description = "Librarians and patrons can search for books by genre. Supports pagination.",
-            responses = {
-                    @ApiResponse(responseCode = "200", description = "Books found",
-                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = BookDto.class)))
-            }
-    )
-    @GetMapping("/search/genre/{genre}")
-    @PreAuthorize("hasAnyRole('LIBRARIAN', 'PATRON')")
-    public ResponseEntity<List<BookDto>> searchBooksByGenre(
-            @PathVariable String genre,
-            @PageableDefault(size = 10) Pageable pageable) {
-        List<BookDto> result = bookService.searchBooksByGenre(genre, pageable);
-        return ResponseEntity.ok(result);
-    }
-
-    @Operation(
-            summary = "Search books by availability",
-            description = "Librarians and patrons can search for books by availability. Supports pagination.",
-            responses = {
-                    @ApiResponse(responseCode = "200", description = "Books found",
-                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = BookDto.class)))
-            }
-    )
-    @GetMapping("/search/availability/{availability}")
-    @PreAuthorize("hasAnyRole('LIBRARIAN', 'PATRON')")
-    public ResponseEntity<List<BookDto>> searchBooksByAvailability(
-            @PathVariable boolean availability,
-            @PageableDefault(size = 10) Pageable pageable) {
-        List<BookDto> result = bookService.searchBooksByAvailability(availability, pageable);
-        return ResponseEntity.ok(result);
     }
 }
