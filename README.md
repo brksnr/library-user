@@ -197,7 +197,7 @@ A Postman collection with all API endpoints pre-configured is available to facil
 **How to use:**
 
 1.  Download the collection file from the repository:
-    * [Library Management API Postman Collection](./postman/Library_Management_API.postman_collection.json)
+    * [Library Management API Postman Collection](./postman/LibraryManagment.postman_collection.json)
 2.  Open Postman.
 3.  Click on the "Import" button (usually found in the top-left corner).
 4.  Drag and drop the downloaded `.json` file or select it using the file browser.
